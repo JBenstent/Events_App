@@ -1,0 +1,44 @@
+<% if flash[:errors] %>
+	<% flash[:errors].each do |msg| %>
+  <ul>
+    <li><%= msg %></li>
+  </ul>
+  <%end%>
+<%end%>
+
+
+<% @event.each do |item| %>
+<h1><%= item.name %></h1>
+<h5>Host: <%= item.user.first_name %></h5>
+<h5>Date: <%= item.date %></h5>
+<h5>Location: <%= item.city %>, <%= item.state %></h5>
+<h5>People who are joining the event: <%=item.attendees.count%></h5>
+<table>
+  <tr>
+    <th> Name </th>
+    <th> Location </th>
+    <th> State </th>
+  </tr>
+	<% item.attendees.each do |attend| %>
+  <tr>
+    <td> <%=attend.first_name%>  </td>
+    <td> <%=attend.location%> </td>
+    <td> <%=attend.state%>  </td>
+  </tr>
+	<%end%>
+</table>
+
+<h3>Discussion about this event:</h3>
+  <% item.comments.each do |comment| %>
+  <p><%= comment.user.first_name %> says: <%= comment.content %></p>
+  <%end%>
+  <hr>
+
+  <form action="/add_comment/<%=item.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+    <p>Add Comment: </p>
+    <textarea name="content" rows="5" cols="80"></textarea>
+    <br>
+    <input type="submit" name="" value="Submit Comments">
+  </form>
+<%end%>

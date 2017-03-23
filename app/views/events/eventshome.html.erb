@@ -1,0 +1,101 @@
+
+<h2>Welcome <%=session[:user_info]%></h2> <a href="/logout">Logout</a> | <a href="/edit/<%= session[:user_id] %>">Edit Profile</a>
+
+<% if flash[:errors] %>
+	<% flash[:errors].each do |msg| %>
+  <ul>
+    <li><%= msg %></li>
+  </ul>
+  <%end%>
+<%end%>
+
+<h4>Here are some of the events at your state: </h4>
+<table>
+  <tr>
+    <th> Event Name: </th>
+    <th> Date: </th>
+    <th> Location: </th>
+    <th> Host: </th>
+    <th> Action/Status </th>
+  </tr>
+  <% @events.each do |event| %>
+  <tr>
+    <td> <%= event.name %> </td>
+    <td> <%= event.created_at %> </td>
+    <td> <%= event.city %> </td>
+    <td> <%= event.user.first_name %> </td>
+    <td>
+      <% if Rsvp.exists?(event_id: event.id, attendee_id: session[:user_id]) %>
+      <a href="/cancel/<%=event.id%>">Cancel</a>
+      <%else%>
+       <a href="/join/<%=event.id%>">Join</a>
+      <% end %>
+        <% if event.user_id == session[:user_id] %>
+        <a href="/delete/<%=event.id%>" data-method="Delete">Delete</a>
+        <a href="/update/<%=event.id%>">Edit</a>
+        <%else%>
+        <a href="/cancel/<%=event.id%>"></a>
+        <%end%>
+    </td>
+
+
+
+
+
+
+    </td>
+    <% end %>
+  </tr>
+</table>
+<hr>
+<h4>Here are some of the events at other states: </h4>
+<table>
+  <tr>
+    <th> Event Name: </th>
+    <th> Date: </th>
+    <th> Location: </th>
+    <th> Host: </th>
+    <th> Action/Status </th>
+    <th></th>
+  </tr>
+  <% @all_events.each do |event| %>
+  <tr>
+    <td> <a href="/event/<%=event.id%>"><%= event.name %></a> </td>
+    <td> <%= event.date %> </td>
+    <td> <%= event.city %> </td>
+    <td> <%= event.user.first_name %> </td>
+    <td>
+      <% if Rsvp.exists?(event_id: event.id, attendee_id: session[:user_id]) %>
+      <a href="/cancel/<%=event.id%>">Cancel</a>
+      <%else%>
+       <a href="/join/<%=event.id%>">Join</a>
+      <% end %>
+      <% if event.user_id == session[:user_id] %>
+      <a href="/delete/<%=event.id%>" data-method="Delete">Delete</a>
+      <a href="/update/<%=event.id%>">Edit</a>
+      <%else%>
+      <a href="#"></a>
+      <a href="#"></a>
+      <%end%>
+    </td>
+  <%end%>
+  </tr>
+</table>
+
+<h2>Add Event</h2>
+<form action="/create/event" method="post">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  <p>Name: <input type="text" name="name" value=""></p>
+  <p>Date: <input type="date" name="date" value=""></p>
+  <p>Location: <input type="text" name="city" value="">
+    <select name="state">
+      <option value="CO">CO</option>
+      <option value="CA">CA</option>
+      <option value="FL">FL</option>
+      <option value="AZ">AZ</option>
+      <option value="IL">IL</option>
+
+    </select>
+  </p>
+  <input type="submit" name="" value="Create Event">
+</form>

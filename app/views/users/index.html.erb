@@ -1,0 +1,38 @@
+<h1>Welcome!</h1>
+
+
+
+<% if flash[:errors] %>
+	<% flash[:errors].each do |msg| %>
+  <ul>
+    <li><%= msg %></li>
+  </ul>
+  <%end%>
+<%end%>
+
+<h3>Register</h3>
+<form action="/create/user" method="post">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  <p>First Name: <input type="text" name="first_name" value=""></p>
+  <p>Last Name: <input type="text" name="last_name" value=""></p>
+  <p>Email: <input type="email" name="email" value=""></p>
+  <p>Location: <input type="text" name="location" value="">
+    <select name="state">
+      <option value="IL">IL</option>
+      <option value="FL">FL</option>
+      <option value="CA">CA</option>
+      <option value="CO">CO</option>
+    </select></p>
+  <p>Password: <input type="text" name="password" value=""></p>
+  <p>Confirm Password: <input type="text" name="confirm_password" value=""></p>
+  <input type="submit" name="" value="Register">
+</form>
+
+
+<h3>Login</h3>
+<form action="/login/user" method="post">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  <p>Email: <input type="email" name="email" value=""></p>
+  <p>Password: <input type="text" name="password" value=""></p>
+  <input type="submit" name="" value="Login">
+</form>

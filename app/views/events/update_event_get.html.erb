@@ -1,0 +1,19 @@
+<h3>Edit Event</h3>
+
+
+<form action="/update/event/<%=@event.id%>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  <p>Name: <input type="text" name="name" value="<%=@event.name%>"></p>
+  <p>Date: <input type="date" name="date" value="<%=@event.date%>"></p>
+  <p>City: <input type="text" name="city" value="<%=@event.city%>">
+    <select name="state">
+      <option value="<%=@event.state%>"><%=@event.state%></option>
+      <option value="IL">IL</option>
+      <option value="FL">FL</option>
+      <option value="CO">CO</option>
+      <option value="CA">CA</option>
+    </select>
+  </p>
+  <input type="submit" name="" value="Update Event">
+</form>

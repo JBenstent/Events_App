@@ -1,0 +1,19 @@
+<h3>Edit your profile</h3>
+<% @user.each do |item| %>
+<form action="/edit/user/<%=session[:user_id]%>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="patch">
+  <p>First Name: <input type="text" name="first_name" value="<%=item.first_name%>"></p>
+  <p>Last Name: <input type="text" name="last_name" value="<%=item.last_name%>"></p>
+  <p>Email: <input type="text" name="email" value="<%=item.email%>"></p>
+  <p>Location: <input type="text" name="location" value="<%=item.location%>">
+    <select name="state">
+      <option value="<%=item.state%>" selected='selected'><%= item.state %></option>
+      <option value="IL">IL</option>
+      <option value="DC">DC</option>
+      <option value="OR">OR</option>
+    </select>
+  </p>
+  <input type="submit" name="" value="Update User">
+</form>
+<%end%>
